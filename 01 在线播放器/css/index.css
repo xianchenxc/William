@@ -1,0 +1,147 @@
+@charset "utf-8";
+body,div,ul,li,p{
+	margin: 0;
+	padding: 0;
+}
+ul,li{
+	list-style: none;
+}
+html,body{
+	background: #d2d5d6;
+	height: 100%;
+	font-family: MicroSoft YaHei, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+.music-player{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: 300px;
+	height: 550px;
+	border-radius: 20px;
+	background: #eef1f2;
+}
+.background{
+	height: 300px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+.music-lyric{
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	background: rgba(0,0,0,0.4);
+	padding: 20px;
+}
+.lyric-view{
+	height: 260px;
+	text-align: center;
+	overflow: hidden;
+}
+.lyric{
+	position: relative;
+	transition: all 1s;
+}
+.lyric li{
+	min-height: 20px;
+	font-size: 14px;
+	padding: 5px 0 2px 0;
+	color: rgba(255, 255, 255, 0.6);
+}
+.lyric li.active{
+  	font-size: 15px;
+  	color: #fff;
+}
+.content{
+	padding: 40px 15px 15px;
+}
+.music-message{
+	float: left;
+	height: 80px;
+	width: 160px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+}
+.music-message p{
+	text-align: left;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap
+}
+.music-title{
+	color: #455569;
+	font-size: 18px;
+	font-weight: bold;
+}
+.music-artist{
+	color: #455569;
+	font-size: 14px;
+	font-weight: bold;
+}
+.music-album{
+	color: #455569;
+	font-size: 12px;
+	padding: 6px 0;
+}
+
+.music-icon{
+	float: right;
+	width: 90px;
+}
+.music-icon a,.music-icon span{
+	margin-left: 4px;
+	font-size: 18px;
+}
+span.colored,a.colored{color: #cdd2d7;}
+span.stared,span.loved{color: #FF3366}
+.content .music-icon span:hover{
+	text-shadow: 1px 1px 1px #ccc;
+}
+.base-bar{
+	height: 4px;
+	border-radius: 2px;
+	background-color: #414141;
+	margin: 0 auto 30px;
+	clear: both;
+}
+.progress-bar{
+	width: 0;
+	height: 4px;
+	border-radius: 2px;
+	background-color: #cdd2d7;
+}
+.play-control,.music-control{
+	display: inline-block;
+}
+.play-control span{
+	display: inline-block;
+	color: #d9d9d9;
+	background: #414141;
+	text-align: center;
+	vertical-align: middle;
+	border-radius: 50%;
+}
+.controls .music-play{
+	width: 50px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 22px;
+	font-weight: bold;
+}
+.controls .music-prev,.controls .music-next{
+	width: 34px;
+	height: 34px;
+	line-height: 34px;
+	font-size: 14px;
+}
+.play-control{
+	margin: 0 65px 0 10px;
+}
+.music-control .lyriced{
+	margin-left:10px;
+}
+.controls .music-control span:hover{
+	text-shadow: 1px 1px 1px #ccc;
+}
