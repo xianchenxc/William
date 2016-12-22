@@ -99,6 +99,12 @@ span.stared,span.loved{color: #FF3366}
 .content .music-icon span:hover{
 	text-shadow: 1px 1px 1px #ccc;
 }
+.channel-name,.count{
+	color: #455569;
+	font-size: 12px;
+	margin: 8px 6px;
+}
+
 .base-bar{
 	height: 4px;
 	border-radius: 2px;
@@ -136,8 +142,14 @@ span.stared,span.loved{color: #FF3366}
 	line-height: 34px;
 	font-size: 14px;
 }
+.controls .music-change{
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 12px;
+}
 .play-control{
-	margin: 0 65px 0 10px;
+	margin: 0 35px 0 10px;
 }
 .music-control .lyriced{
 	margin-left:10px;
