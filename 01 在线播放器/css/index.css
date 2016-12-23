@@ -7,7 +7,7 @@ ul,li{
 	list-style: none;
 }
 html,body{
-	background: #d2d5d6;
+	background-color: #d2d5d6;
 	height: 100%;
 	font-family: MicroSoft YaHei, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -105,12 +105,17 @@ span.stared,span.loved{color: #FF3366}
 	margin: 8px 6px;
 }
 
-.base-bar{
+.base-bar,.click-bar{
 	height: 4px;
 	border-radius: 2px;
 	background-color: #414141;
 	margin: 0 auto 30px;
 	clear: both;
+}
+.click-bar{
+	position: relative;
+	z-index: 9999;
+	left:0;
 }
 .progress-bar{
 	width: 0;

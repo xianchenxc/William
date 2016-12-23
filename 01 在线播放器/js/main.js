@@ -93,16 +93,26 @@ function EventHanlder(){
 		curChannel = channel[(index+1)%10];
 		fetchMusicList(curChannel);
 	});
+
+	//点击进度条，改变播放时间
+	$('.click-bar').click(function(e){
+		var total = $('.click-bar').outerWidth();
+		var clickPos = e.pageX - $('.click-bar').offset().left;
+		Dom.audio.currentTime = parseInt(clickPos/total*Dom.audio.duration);
+		changeProgress();
+		showLyric();
+	});
 }
 
 function play(){
-	Dom.audio.play();
 	Dom.play.removeClass('m-play').addClass('m-pause');
+	clearInterval(timer);
 	timer = setInterval(function(){
 		if(!Dom.audio.paused){
 			changeProgress();
 		}
 	},2000);
+	Dom.audio.play();
 }
 function pause(){
 	Dom.audio.pause();
@@ -196,10 +206,10 @@ function showLyric(){
 	$('.lyric li').each(function(index,item){
 		var curT = $('.lyric li').eq(index).attr('data-time');
 		var nextT = $('.lyric li').eq(index+1).attr('data-time');
-		if((curTime > curT) && (curTime < nextT) && $('.lyric li').eq(index).text().trim()!=''&&!$('.lyric li').eq(index).hasClass('active')){
+		if((curTime > curT) && (curTime < nextT) &&!$('.lyric li').eq(index).hasClass('active')){
 			$(".lyric li").removeClass('active');
 			$('.lyric li').eq(index).addClass('active');
-			if(liH > 108){
+			if(liH > 108 || $('.music-lyric .lyric').css('top') < -108 ){
 				$('.music-lyric .lyric').css('top',-liH+108);
 			}
 		}
@@ -208,8 +218,9 @@ function showLyric(){
 }
 
 function fetchMusic(songid){
-	$.ajax({
+	var xhrReq = $.ajax({
 		url     : baseUrl,
+		timeout : 30000,
 		dataType: 'jsonp',
 		jsonp   : 'callback',
 		data:{
@@ -239,11 +250,15 @@ function fetchMusic(songid){
             }
             fetchLyric(lyric);
             play();
+		},
+		complete: function(xhr,status){
+			if(status == 'timeout'){
+				xhrReq.abort();
+				$('.lyric').append('<li style="color:red">网络超时</li>');
+			}
 		}
 	});	
 }
-
-
 	EventHanlder();
 	fetchMusicList(curChannel);
 });
