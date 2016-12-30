@@ -1,5 +1,6 @@
 import { PLAYORPAUSE,MUSICCHANGE,TIMEUPDATE } from '../../Constants/ActionType.js';
 import { REQUESTLYRIC,REQUESTSONG,RECEIVELYRIC } from '../../Constants/ActionType.js';
+import { SEARCHINPUT,QUERYSONG } from '../../Constants/ActionType.js';
 import fetchJSONP from 'fetch-jsonp';
 import fetch from 'isomorphic-fetch';
 import { CONFIG } from '../../Constants/Config.js';
@@ -29,6 +30,13 @@ function fetchSongInfo(json){
 	}
 }
 
+function receiveQuery(json){
+	return {
+		type: QUERYSONG,
+		queryRes: json.song
+	};
+}
+
 function isFetchSong(state){
 	return false;
 }
@@ -52,7 +60,6 @@ function fetchSong(songid,lrclink){
 
 function fetchLyric(url,song_id){
 	return dispatch =>{
-		console.log('进入fetchLyric');
 		dispatch({
 			type: REQUESTLYRIC,
 			song_id: song_id
@@ -73,7 +80,6 @@ function fetchLyric(url,song_id){
 						}
 					}
 				});
-				console.log('准备dispatch',RECEIVELYRIC);
 				return dispatch({
 					type: RECEIVELYRIC,
 					lyric: result
@@ -85,6 +91,23 @@ function fetchLyric(url,song_id){
 	};
 }
 
+function fetchQuerySong(keyWord){
+	return dispatch => {
+			let url = `${CONFIG.base_url}?method=${CONFIG.query_method}&query=${keyWord}`;
+			console.log(url);
+			return fetchJSONP(url,{
+				timeout: 20000,
+				jsonpCallback: "callback"
+			}).then(response => response.json())
+			.then(json => 
+				dispatch(receiveQuery(json))
+			)
+			.catch(e =>
+				console.log(e)
+			);
+		};
+}
+
 export function playOrPause(item){
 	return {type: PLAYORPAUSE};
 }
@@ -92,7 +115,6 @@ export function playOrPause(item){
 export function nextMusic(item){
 	return (dispatch,getState)=>{
 				let curState = getState().musicState;
-				console.log('下一首');
 				if( !isFetchSong(curState) ){
 					let index = 0;
 					let song_id = 0;
@@ -107,7 +129,6 @@ export function nextMusic(item){
 					index = index%listLen;
 					song_id = curState.playList[index].song_id;
 					lrclink = curState.playList[index].lrclink;
-					console.log('下一首',curState.playList[index].title,lrclink);
 					return dispatch(fetchSong(song_id,lrclink));
 				}
 			}
@@ -116,21 +137,35 @@ export function nextMusic(item){
 export function ontimeupdate(item){
 	let { currentTime,duration } = item.target;
 	currentTime = currentTime>=duration?duration:currentTime;
-	if(currentTime>=duration){
-		console.log(currentTime);
-	}
 	return {
 			type: TIMEUPDATE,
 			currentTime
 		};
 }
 
-export function getLyric(){
-	
+export function getLyric(){	
 	return (dispatch,getState)=>{
 		let url = getState().musicState.lrclink;
 		let song_id = getState().musicState.song_id;
-		console.log('触发歌词查询', getState());
 		return dispatch(fetchLyric(url,song_id));
+	};
+}
+
+export function searchSong(keyWord){
+	console.log(keyWord);
+	return (dispatch,getState) =>{
+		dispatch(fetchQuerySong(keyWord));
+	};
+}
+
+export function searchInput(item){
+	return {
+		type: SEARCHINPUT,
+		keyWord: item.target.value,
 	}
+}
+
+export function instPlay(songid){
+	return (dispatch,getState)=>
+		dispatch(fetchSong(songid));
 }

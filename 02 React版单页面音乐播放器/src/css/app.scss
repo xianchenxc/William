@@ -1,4 +1,4 @@
-h1,h2,h3,h4,h5,h6,p,a,ul,li{
+body,h1,h2,h3,h4,h5,h6,p,a,ul,li,input,button{
 	padding: 0;
 	margin: 0;
 }
@@ -8,6 +8,9 @@ a{
 }
 ul,ol,li{
 	list-style:none	
+}
+input,button{
+	outline:none;
 }
 
 .header{

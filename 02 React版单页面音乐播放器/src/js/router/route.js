@@ -1,9 +1,15 @@
 import React,{ Component } from 'react';
 import { Router,Route,IndexRoute,useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
-import App from '../Component/App';
+import App from '../Containers/App';
 
 var appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
+
+var Search = (location,cb) => {
+	require.ensure([],require => {
+    	cb(null,require('../Containers/Search.js').default);
+  	},'search');
+};
 
 var Lyric = (location,cb) => {
 	require.ensure([],require => {
@@ -13,6 +19,7 @@ var Lyric = (location,cb) => {
 
 const routes = (
 	<Route path="/" component={App}>
+		<Route path="/search" getComponent={Search}/>
 		<Route path="/lyric" getComponent={Lyric}/>
 	</Route>
 );

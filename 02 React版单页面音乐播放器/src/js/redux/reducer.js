@@ -1,4 +1,6 @@
 import { PLAYORPAUSE,MUSICCHANGE,TIMEUPDATE,REQUESTLYRIC,REQUESTSONG,RECEIVELYRIC } from '../Constants/ActionType.js';
+import { SEARCHINPUT,QUERYSONG } from '../Constants/ActionType.js';
+import objectAssign from 'object-assign';
 
 let initialState = {
 	isPlay: false,           //标识播放器是暂停还是播放
@@ -39,26 +41,26 @@ export const musicState = (preState = initialState,action) => {
 	switch(action.type){
 		case PLAYORPAUSE:
 			if(preState.isPlay){
-				return Object.assign({},preState,{
+				return objectAssign({},preState,{
 					isPlay : false
 				});
 			}else{
-				return Object.assign({},preState,{
+				return objectAssign({},preState,{
 					isPlay : true
 				});
 			}
 		case MUSICCHANGE:
-			return Object.assign({},preState,{
+			return objectAssign({},preState,{
 				isPlay: true,                         //切换默认播放
 				currentTime: 0,
 				curMusic: action.musicChange
 			});
 		case TIMEUPDATE:
-			return Object.assign({},preState,{
+			return objectAssign({},preState,{
 				currentTime: action.currentTime,
 			});
 		case REQUESTSONG:
-			return Object.assign({},preState,{
+			return objectAssign({},preState,{
 				isPlay: false,
 				song_id: action.song_id,
 				lrclink: action.lrclink,
@@ -71,15 +73,25 @@ export const musicState = (preState = initialState,action) => {
 export const lyricState = (preState=initialState,action)=>{
 	switch (action.type){
 		case RECEIVELYRIC:
-			console.log('查到歌词啦！');
-			return Object.assign({},preState,{
+			return objectAssign({},preState,{
 				lyric: action.lyric
 			});
 		case REQUESTLYRIC:
-			return Object.assign({},preState,{
+			return objectAssign({},preState,{
 				lyricsong_id: action.song_id
 			});			
 		default: 
+			return preState;
+	}
+};
+
+export const queryState = (preState=initialState,action)=>{
+	switch (action.type){
+		case QUERYSONG:
+			return objectAssign({},preState,{
+				queryRes: action.queryRes
+			});
+		default:
 			return preState;
 	}
 };

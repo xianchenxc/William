@@ -12,3 +12,7 @@ export const REQUESTSONG = 'REQUESTSONG';
 export const REQUESTLYRIC = 'REQUESTLYRIC';
 
 export const RECEIVELYRIC = 'RECEIVELYRIC';
+
+export const SEARCHINPUT = 'SEARCHINPUT';
+
+export const QUERYSONG = 'QUERYSONG';

@@ -114,7 +114,7 @@ function getPlugins() {
         }
       }),
       new HtmlWebpackPlugin({
-        title: 'celbyo - 写给未来的自己',
+        title: 'celbyo - 播放器',
         filename: '../index.html',
         template: './src/html/index.html'
       }),

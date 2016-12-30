@@ -21,10 +21,8 @@ class App extends Component{
 	}
 	playOrPause(props){
 		if(props.isPlay&&this.refs['audio'].paused){
-			console.log('播放啦',this.refs['audio'].paused);
 			this.refs['audio'].play();
 		}else if(!props.isPlay&&!this.refs['audio'].paused){
-			console.log('暂停啦',this.refs['audio'].paused);
 			this.refs['audio'].pause();
 		}
 	}
@@ -81,9 +79,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch,ownProps) => {
 	return {
 		actions: bindActionCreators(ItemsActions,dispatch),
-		//playOrPause: () => dispatch(MusicOperation('PLAYORPAUSE')),
-		//nextMusic: () => dispatch(MusicOperation('MUSICCHANGE')),
-		//timeUpdate: () => dispatch(MusicOperation('TIMEUPDATE'))
 	}
 }
 
