@@ -4,6 +4,7 @@ import * as ItemsActions from '../redux/Action';
 import { connect } from 'react-redux';
 import ListHeader from '../Components/ListHeader';
 import ListContent from '../Components/ListContent';
+import { StorageSetter } from '../util/tool.js';
 
 import "../../css/playlist.scss";
 import "../../css/icon.scss";
@@ -31,7 +32,6 @@ const mapStateToProps = state =>{
 	let {
 		localPlayList
 	} = state;
-	console.log(localPlayList);
 	return localPlayList;
 };
 

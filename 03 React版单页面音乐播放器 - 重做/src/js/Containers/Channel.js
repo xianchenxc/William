@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import NProgress from 'nprogress';
 import ListHeader from '../Components/ListHeader';
 import ListContent from '../Components/ListContent';
-import { fetchChannelList } from '../redux/Action/index.js';
 
 import "../../css/nprogress.scss";
 
@@ -36,6 +35,7 @@ class Channel extends Component{
 		if(this.props[this.props.params.id]===undefined){
 			return null;
 		}
+		let actions = this.props.actions;
 		let bg = {};
 		if(this.props[this.props.params.id].avator_url!==''){
 			bg ={
@@ -47,7 +47,8 @@ class Channel extends Component{
 				<ListHeader url={bg} listName={this.props[this.props.params.id].name} listcnt={this.props[this.props.params.id].length} 
 					date={this.props[this.props.params.id].date} comment={this.props[this.props.params.id].comment}
 					playAll={this.playAll}/>
-				<ListContent listContent={this.props[this.props.params.id].song_list} />
+				<ListContent listContent={this.props[this.props.params.id].song_list} playSpecialSong={actions.playSpecialSong}
+				addToPlayList={actions.addToPlayList} addToLocalList={actions.addToLocalList}/>
 			</div>
 		);
 	}

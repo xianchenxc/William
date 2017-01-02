@@ -29,7 +29,6 @@ class App extends Component{
 	render(){
 		const actions = this.props.actions;
 		let timeWidth = `${this.props.currentTime*100/this.props.curMusic['file_duration']}%`;
-
 		return (
 			<div>
 				<div className="header">

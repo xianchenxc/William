@@ -37,7 +37,10 @@ var curChannel = channel[Math.floor(Math.random()*channel.length)];
 var baseUrl = 'http://tingapi.ting.baidu.com/v1/restserver/ting';
 var songArr = [];
 var curIndex = 0;
-var myFavorite = Util.StorageGetter('myFavorite').split(',')||[];  //通过split函数将字符串转换为数组
+var myFavorite = [];  //通过split函数将字符串转换为数组
+if(Util.StorageGetter('myFavorite')){
+	myFavorite = Util.StorageGetter('myFavorite').split(',')
+}
 var timer = 0;
 var timerLyric = 0;
 var lyricArr = [];
@@ -60,7 +63,7 @@ function EventHanlder(){
 		prev();
 	});
 	// 播放完成自动播放下一首
-	Dom.audio.onended = function(){
+	Dom.audio.onEnded = function(){
 		next();
 	};
 	// 歌词显示或者隐藏切换

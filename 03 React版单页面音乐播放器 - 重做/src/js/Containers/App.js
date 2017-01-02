@@ -18,13 +18,19 @@ class App extends Component{
 			<div>
 				<div className="header">
 					<div className="logo">Baidu 音乐API</div>
+					<div className="searchArea">
+						<input type="text" placeholder="搜索音乐，歌手，歌词" className="searchInput" onChange={actions.keywordChange}/>
+						<Link to="searchBar" className="searchBtn"></Link>
+					</div>
 				</div>
 				<SideBar />
 				<div className="rootContainer">
  					{this.props.children}
  				</div>
- 				<MusicPanel {...musicState} playList={this.props.playList} 
- 				playStateShift={actions.playStateShift}/>
+ 				<MusicPanel {...musicState} playList={this.props.curPlayList} 
+ 				playStateShift={actions.playStateShift} nextSong={actions.nextSong}
+ 				preSong={actions.preSong} songTimeUpdate={actions.songTimeUpdate}
+ 				changeVol={actions.changeVol} changeProgress={actions.changeProgress}/>
 			</div>
 		);
 	}
@@ -33,11 +39,11 @@ class App extends Component{
 const mapStateToProps = state => {
 	let {
 		musicState,
-		playList
+		curPlayList
 	} = state;
 	return {
 		musicState,
-		playList
+		curPlayList
 	};
 }
 

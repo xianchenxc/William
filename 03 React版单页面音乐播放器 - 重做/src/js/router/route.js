@@ -12,11 +12,17 @@ let Channel = (location,cb) => {
     	cb(null,require('../Containers/Channel.js').default);
   	},'channel');
 };
+let Search = (location,cb) => {
+	require.ensure([],require => {
+    	cb(null,require('../Containers/Search.js').default);
+  	},'search');
+};
 
 const routes = (
 	<Route path="/" component={App}>
 		<IndexRoute component={LocalList} />
 		<Route path="/locallist" component={LocalList} />
+		<Route path="/search" component={Search}/>
 		<Route path="/channel/:id" getComponent={Channel} />
 	</Route>
 );

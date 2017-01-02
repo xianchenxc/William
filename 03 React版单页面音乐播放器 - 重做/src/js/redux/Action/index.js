@@ -1,10 +1,13 @@
-import { PLAYERSTEATESHIFT,REQUESTSONG,RECEIVESONG } from '../../Constants/ActionType.js';
+import { PLAYERSTEATESHIFT,REQUESTSONG,RECEIVESONG,SONGTIMEUPDATE,VOLUMEUPDATE } from '../../Constants/ActionType.js';
 import { REQUESTCHANNELLIST,RECEIVECHANNELLIST,SHOWCHANNELLIST } from '../../Constants/ActionType.js';
-import { UPDATEPLAYLIST } from '../../Constants/ActionType.js';
+import { UPDATEPLAYLIST,UPDATEPLAYLISTINDEX } from '../../Constants/ActionType.js';
+import { UPDATELOCALLIST } from '../../Constants/ActionType.js';
+import { KEYWORDCHANGE,REQUESTKEYWORDQUERY } from '../../Constants/ActionType.js';
 import fetchJSONP from 'fetch-jsonp';
 import fetch from 'isomorphic-fetch';
 import { CONFIG } from '../../Constants/Config.js';
 import NProgress from 'nprogress';
+import { offsetLeft,StorageSetter } from '../../util/tool.js';
 
 function requestChannelList(channel_type){
 	return {
@@ -42,6 +45,20 @@ function updatePlayList(song_list,oper){
 	}
 }
 
+function updateCurPlayIndex(index){
+	return {
+		type: UPDATEPLAYLISTINDEX,
+		curIndex: index
+	}
+}
+
+function updateLocalList(song_info){
+	return {
+		type: UPDATELOCALLIST,
+		item: song_info
+	}
+}
+
 function requestSongInfo(songid){
 	return {
 		type: REQUESTSONG,
@@ -51,7 +68,6 @@ function requestSongInfo(songid){
 }
 
 function receiveSongInfo(json){
-	console.log(json);
 	return {
 		type: RECEIVESONG,
 		isFetching: false,
@@ -122,3 +138,110 @@ export function playAll(song_list){
 	};
 }
 
+export function playSpecialSong(song_id,song_info){
+	return (dispatch,getState) => {
+		let song_list = [];
+		song_list.push(song_info);
+		dispatch(updatePlayList(song_list,'ADD'));
+		return dispatch(fetchSong(song_id));
+	};
+}
+
+export function addToPlayList(song_info){
+	return (dispatch,getState) => {
+		let song_list = [];
+		song_list.push(song_info);
+		return dispatch(updatePlayList(song_list,'ADD'));
+	};	
+}
+
+export function addToLocalList(song_info){
+	return (dispatch,getState) => {
+		return dispatch(updateLocalList(song_info));
+	};	
+}
+
+export function nextSong(){                           //播放下一首
+	return (dispatch,getState) => {
+		let curState = getState().curPlayList;
+		let nextIndex = (curState.curIndex+1)%(curState.length);
+		let nextSong = curState.song_list[nextIndex];
+		dispatch(updateCurPlayIndex(nextIndex));
+		return dispatch(fetchSong(nextSong.song_id));
+	};	
+}
+
+export function preSong(){                           //播放下一首
+	return (dispatch,getState) => {
+		let curState = getState().curPlayList;
+		let nextIndex = (curState.curIndex-1)
+		nextIndex = nextIndex<0 ? (nextIndex+curState.length):nextIndex;
+		let nextSong = curState.song_list[nextIndex];
+		dispatch(updateCurPlayIndex(nextIndex));
+		return dispatch(fetchSong(nextSong.song_id));
+	};	
+}
+
+export function songTimeUpdate(e){
+	let { currentTime,duration } = e.target;
+	currentTime = currentTime>=duration?duration:currentTime;
+	return {
+			type: SONGTIMEUPDATE,
+			currentTime: parseInt(currentTime)
+		};	
+}
+
+export function changeVol(e,audio){
+	let offset = e.pageX-offsetLeft(e.currentTarget);
+	// 这里之前是想做一个pannel层，设置z-index：9999。这样每次点击的target就是pannel层。
+	// 但是 在chrome中测试，未通过，每次target还是最子层的，导致每次target.clientWidth不一样
+	let volume = offset/e.currentTarget.clientWidth;     
+	audio.volume = volume;
+	return {
+		type: VOLUMEUPDATE,
+		volume: volume
+	}
+}
+
+export function changeProgress(e,audio){
+	let offset = e.pageX-offsetLeft(e.currentTarget);
+	let referTime = 0;
+	if(audio.duration){
+		referTime = parseInt(offset/e.currentTarget.clientWidth*audio.duration);
+		audio.currentTime = referTime;
+	}
+	return {
+		type: SONGTIMEUPDATE,
+		currentTime: referTime
+	};
+}
+
+export function keywordChange(e){
+	let value = e.target.value;
+	return {
+		type: KEYWORDCHANGE,
+		keyword: value
+	};
+}
+
+export function keywordQuery(keyword){
+	return (dispatch,getState) => {
+		dispatch({
+			type: REQUESTKEYWORDQUERY,
+			isFetching: true
+		})
+	};
+}
+
+// export function recordLocalList(){
+// 	return (dispatch,getState) => {
+// 		StorageSetter('localPlayList',getState().localPlayList);
+// 		StorageSetter('musicState',getState().musicState);
+// 		StorageSetter('curPlayList',getState().curPlayList);
+// 		StorageSetter('date',new Date());
+// 		return dispatch({
+// 			type: UNMOUNTSAVE
+// 		});
+// 	}
+// }
+// 

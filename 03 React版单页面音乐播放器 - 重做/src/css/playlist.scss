@@ -132,4 +132,18 @@
 .list-content tbody tr:nth-child(2n){
 	background: #F5F5F7;
 }
-
+.list-content .m-heart{
+	float: left;
+	width: 20px;
+	height: 28px;	
+	cursor: pointer;	
+}
+.list-content .cell-add{
+	float: right;
+	width: 20px;
+	height: 28px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	cursor: pointer;
+}

@@ -9,7 +9,8 @@ class CellView extends Component{
 		return (
 			<tbody>
 				{this.props.list.map((item,index)=>
-					<Cell {...item} seq={index+1} key={index} />
+					<Cell {...item} seq={index+1} info={item} key={index} playSpecialSong={this.props.playSpecialSong}
+					addToPlayList={this.props.addToPlayList} addToLocalList={this.props.addToLocalList}/>
 				)}
 			</tbody>
 		);

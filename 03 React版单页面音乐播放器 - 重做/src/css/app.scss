@@ -4,6 +4,7 @@ html,body{
 html,body,h1,h2,h3,h4,h5,h6,p,a,ul,li,input,button,table,tr,th,td,dl,dt,dd{
 	padding: 0;
 	margin: 0;
+	-webkit-font-smoothing: antialiased;
 }
 .sidebar::-webkit-scrollbar{
 	width: 8px;
@@ -51,12 +52,43 @@ input,button{
 	z-index: 9999;
 }
 .header .logo{
+	float: left;
 	width: 20%;
 	height: 50px;
 	line-height: 50px;
 	font-size: 24px;
 	text-align: center;
+	margin: 0 5%;
 }
+.header .searchArea{
+	position: relative;
+	float: left;
+	width: 20%;
+	height: 22px;
+	background: #A82828;
+	padding: 0 32px 0 10px;
+	border-radius: 16px;
+	margin: 14px 0;
+}
+.searchArea .searchInput{
+	display: block;
+	width: 100%;
+	height: 22px;
+	color: #fff;
+	line-height: 22px;
+	background: transparent;
+	border: none;
+}
+.searchArea .searchBtn{
+	position: absolute;
+	top: 0;
+	right: 10px;
+	width: 22px;
+	height: 22px;
+	background: url("../img/searchbtn.png") no-repeat center center;	
+	cursor: pointer;
+}
+
 .sidebar{
 	position: absolute;
 	top: 50px;
@@ -104,23 +136,32 @@ input,button{
 	float: right;
 	width: 139px;
 	height: 100%;
-	padding: 10px 10px;
+	padding: 0px 10px;
 	box-sizing: border-box;
 }
 .music-baseInfo h6{
-	font-size: 16px;
-	height: 24px;
-	line-height: 24px;
+	padding-top: 14px;
+	font-size: 14px;
+	line-height: 1;
 	font-weight: normal;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap
 }
 .music-baseInfo p{
-	height: 14px;
-	font-size: 14px;
+	padding-top: 6px;
+	font-size: 12px;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	white-space: nowrap
 }
 .music-box{
 	height: 36px;
 	padding: 7px 17px;
 	vertical-align: middle;
+}
+.music-box .m-icon{
+	cursor: pointer;	
 }
 .music-control{
 	float: left;
@@ -159,6 +200,7 @@ input,button{
 .music-curTime{
 	float: left;
 	margin-left: 7px;
+	transition: all 1s; 
 }
 .music-totalTime{
 	margin-right: 266px;
@@ -182,11 +224,63 @@ input,button{
 	box-sizing: border-box;
 }
 .music-lineContainer .music-playhead{
-	width: 20%;
 	height: 4px;
 	background: #EB363F;
 	border-radius: 2px;
 }
+.music-volume{
+	position: absolute;
+	top: 18px;
+	right: 153px;
+	width: 121px;
+	height: 12px;
+}
+.music-volume .icon-volume{
+	float: left;
+	width: 16px;
+	height: 12px;
+	background: url("../img/volume.png") no-repeat center left;
+	cursor: pointer;
+}
+.music-volume .music-volumeBar{
+	margin: 4px 0 0 21px;
+	width: 100px;
+	height: 4px;
+	border-radius: 2px;
+	background: #E8E8E9;
+}
+.music-curVolume{
+	height: 4px;
+	border-radius: 2px;
+	background: #E83C3C;
+}
+.music-playMode{
+	position: absolute;
+	right: 113px;
+	top: 17px;
+	height: 36px;
+	color: #666666;
+}
+.music-listicon{
+	position: absolute;
+	top: 16px;
+	right: 33px;
+	height: 17px;
+	background: url("../img/list.png") no-repeat center left;
+	cursor: pointer;
+}
+.music-listcnt{
+	height: 16px;
+	line-height: 16px;
+	font-size: 12px;
+	font-family: 'Arial';
+	background: #E1E1E2;
+	padding: 0 12px 0 6px;
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	margin-left: 19px;
+}
+
 
 .sidebar,.sidebar .m-icon{
 	font-size: 12px;

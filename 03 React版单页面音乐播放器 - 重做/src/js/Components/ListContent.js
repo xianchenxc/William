@@ -16,7 +16,8 @@ class ListContent extends Component{
 							<th>时长</th>
 						</tr>
 					</thead>
-					<CellView list={this.props.listContent} />
+					<CellView list={this.props.listContent} playSpecialSong={this.props.playSpecialSong} 
+					addToPlayList={this.props.addToPlayList} addToLocalList={this.props.addToLocalList}/>
 				</table>
 			</div>
 		);
