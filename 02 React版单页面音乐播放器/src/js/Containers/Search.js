@@ -1,29 +1,50 @@
 import React,{ Component } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as ItemsActions from '../redux/Action';
-import SearchBar from '../Components/SearchBar';
-import Content from '../Components/Content';
+import { connect } from 'react-redux';
+import ListContent from '../Components/ListContent';
 
-import '../../css/search.scss';
+import "../../css/search.scss";
 
 class Search extends Component{
-	constructor(props){
-		super(props);
-	}
 	render(){
-		const actions = this.props.actions;
+		let { displaykeyword,length,info,list,actions } = this.props;
+		let durationShow = false;
 		return (
-			<div className="searchPanel">
-				<SearchBar searchInput={actions.searchInput} searchSong={actions.searchSong}/>
-				<Content items={this.props.queryRes} instPlay={actions.instPlay}/>
+			<div>
+				<div className="search-header">
+					搜索 <span>&quot;{displaykeyword}&quot;</span>，找到 {length} 首单曲
+					<div className="info">{info}</div>
+				</div>
+				<ListContent listContent={list} playSpecialSong={actions.playSpecialSong}
+				addToPlayList={actions.addToPlayList} addToLocalList={actions.addToLocalList} durationShow={durationShow}/>
 			</div>
 		);
 	}
 }
 
-export default connect(state => ({ 
-	queryRes: state.queryState.queryRes
-}),dispatch => ({
-	actions: bindActionCreators(ItemsActions,dispatch)
-}))(Search);
+const mapStateToProps = state => {
+	let {
+		success,
+		isFetching,
+		length,
+		displaykeyword,
+		keyword,
+		result,
+	} = state.keywordSearchList;
+	let info = `${isFetching?'Loading...':success?'':'搜索 '+keyword+' 超时'}`
+	return {
+		displaykeyword,
+		length,
+		info,
+		list: result
+	};
+};
+
+const mapDispatchToProps = (dispatch,ownProps) => {
+	return {
+		actions: bindActionCreators(ItemsActions,dispatch)
+	}
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Search);

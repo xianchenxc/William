@@ -1,47 +1,60 @@
 import React,{ Component } from 'react';
+import { bindActionCreators } from 'redux';
+import * as ItemsActions from '../redux/Action';
 import { connect } from 'react-redux';
-import { getLyric } from '../redux/Action/index.js';
+import LyricInfo from '../Components/LyricInfo';
+import LyricContent from '../Components/LyricContent';
 
-import '../../css/lyric.scss';
+import "../../css/lyric.scss";
 
 class Lyric extends Component{
-	constructor(props){
-		super(props);
-	}
 	componentDidMount(){
-		const { dispatch } = this.props;
-		dispatch(getLyric());
+		this.props.actions.fetchLyric(this.props.musicState.song_id);
 	}
-	componentWillReceiveProps(nextProps){
-		const { dispatch } = this.props;
-		console.log(nextProps.song_id,nextProps.lyricsong_id);
-		if(nextProps.song_id!==nextProps.lyricsong_id){
-			dispatch(getLyric());
+	componentWillUpdate(nextProps){
+		if(nextProps.musicState.song_id!==this.props.musicState.song_id){
+			nextProps.actions.fetchLyric(nextProps.musicState.song_id);
 		}
 	}
-	render (){
-		var lyricList = this.props.lyric.map(function(item,index){
-			return <li data-time={item[0]} key={index}>{item[1]}</li>;
-		});
+	render(){
+		let musicState = this.props.musicState;
+		let bg = {};
+		if(musicState.pic_big!==''){
+			bg = {
+				backgroundImage: 'url("'+musicState.pic_big+'")'
+			};
+		}
 		return (
-			<ul className="lyricList">
-				{lyricList}
-			</ul>
+			<div className="lyric">
+				<div className="lyric-operation">
+					<div className="lyric-outer">
+						<div className="lyric-inner">
+							<div className="lyric-img" style={bg}></div>
+						</div>
+					</div>
+				</div>
+				<div className="lyric-container">
+					<LyricInfo {...musicState}/>
+					<LyricContent {...musicState}/>
+				</div>
+			</div>
 		);
 	}
 }
 
-function mapStateToProps(state){
+const mapStateToProps = (state) => {
 	let {
-		lyricsong_id = state.musicState.song_id,
-		lyric=[[0,'Loading...']]
-	} = state.lyricState;
-	let song_id = state.musicState.song_id;
+		musicState,
+	} = state;
 	return {
-		song_id,
-		lyricsong_id,
-		lyric
-  	};
-}
+		musicState,
+	};
+};
 
-export default connect(mapStateToProps)(Lyric);
+const mapDispatchToProps = (dispatch,ownProps) => {
+	return {
+		actions: bindActionCreators(ItemsActions,dispatch)
+	};
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(Lyric);

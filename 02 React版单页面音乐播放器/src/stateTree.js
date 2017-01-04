@@ -1,6 +1,7 @@
 //播放器状态
 musicState = {
 	play: true,           //播放器是处于播放还是暂停状态
+	volume:,
 	currentTime: 0,       //当前播放器播放的时长
 	song_id: ,
 	title: ,
@@ -16,13 +17,17 @@ playList = {
 	index:0,
 	mode: ,
 	length: ,
-	list: []
+	song_list: []
 }
 
 //本地列表，歌曲收藏
-localList = {
+PlayList = {
 	length: ,
-	list: []
+	date: ,
+	name: ,
+	comment: ,
+	avator_url: ,
+	song_list: []
 }
 
 /*ActionType*/
