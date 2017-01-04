@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { connect } from 'react-redux';
-import { nextSong,showPlayList,preSong,songTimeUpdate,changeVol,changeProgress,playStateShift} from '../redux/Action';
+import { nextSong,showPlayList,preSong,songTimeUpdate,changeVol,changeProgress,playStateShift,changeMode } from '../redux/Action';
 import { timeFormat } from '../util/tool.js';
 
 class MusicControl extends Component{
@@ -28,7 +28,7 @@ class MusicControl extends Component{
 		}
 	}
 	render(){
-		let { play,src,playMode,nextSong,preSong,showPlayList,songTimeUpdate } = this.props;
+		let { play,src,playMode,nextSong,preSong,showPlayList,songTimeUpdate,changeMode } = this.props;
 		return(
 		<div className="music-box">
 			<audio ref="audio" src={src} onEnded={nextSong} onTimeUpdate={songTimeUpdate}></audio>
@@ -46,7 +46,7 @@ class MusicControl extends Component{
 					</div>
 				</div>
 			</div>
-			<div className="music-playMode" onClick={this.props.changeMode}>
+			<div className="music-playMode" onClick={changeMode}>
 				<span className={`m-icon ${playMode}`}></span>		
 			</div>
 			<div className="music-listicon" onClick={showPlayList}>
@@ -87,6 +87,7 @@ const mapDispatchToProps = (dispatch,ownProps) => {
 		changeVol: (e,audio)=> dispatch(changeVol(e,audio)),
 		changeProgress: (e,audio) => dispatch(changeProgress(e,audio)),
 		playStateShift: (audio) => dispatch(playStateShift(audio)),
+		changeMode: () => dispatch(changeMode()),
 	};
 };
 
