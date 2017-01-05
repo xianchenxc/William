@@ -3,20 +3,35 @@
 可以克隆本项目,点击index.html查看demo.
 
 目录结构如下所示：
+
 ——dist
+
 ——demo-img
+
 ——src
+
     |——css
+
     |——html
+
     |——img
+
     |——js
+
     	|——Components
+
     	|——Constants
+
     	|——Containers
+
     	|——redux
+
     	|——router
+
     	|——util
+
 ——package.json
+
 ——webpack.config.js
 
 主要实现功能：
@@ -46,5 +61,7 @@
  ![Image text](demo-img/歌词展示.png)
 
 ----------------------------通过本项目实践,更加理解React,Redux---------------------------------------
+
+还有很多不足之处，比如: 分页请求,过渡动画等
 
 ps: 感谢百度音乐API,和网易云音乐(界面布局风格参考,原因云音乐很好看啊。。。)
