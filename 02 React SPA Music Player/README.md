@@ -4,11 +4,11 @@
 
 目录结构如下所示：
 
-——dist
+|——dist
 
-——demo-img
+|——demo-img
 
-——src
+|——src
 
     |——css
 
@@ -30,9 +30,9 @@
 
     	|——util
 
-——package.json
+|——package.json
 
-——webpack.config.js
+|——webpack.config.js
 
 主要实现功能：
 
