@@ -144,6 +144,7 @@ export const channelPlayList = (preState=initChannelPlayList,action) => {
 		case RECEIVECHANNELLIST:
 			let state = preState;
 			state.isFetching = false;
+			state.success = true;
 			let post = action.items;
 			let channel_type = post.channel_type;
 			if(state[channel_type]){

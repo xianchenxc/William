@@ -122,7 +122,7 @@ function receiveKeywordQuery(keyword,json){
 	let result = json.song_list;
 	return {
 		type: RECEIVEKEYWORDQUERY,
-		length: json.pages.rn_num,
+		length: result.length,
 		keyword: keyword,
 		result: result
 	};

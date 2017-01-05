@@ -12,11 +12,12 @@ import "../../css/icon.scss";
 class LocalList extends Component{
 	render(){
 		let { name,bg,length,date,comment,song_list,actions } = this.props;
+		let durationShow= true;
 		return (
 			<div>
 				<ListHeader url={bg} listName={name} listcnt={length} 
 					date={date} comment={comment}/>
-				<ListContent listContent={song_list} playSpecialSong={actions.playSpecialSong}
+				<ListContent listContent={song_list} durationShow={durationShow} playSpecialSong={actions.playSpecialSong}
 				addToPlayList={actions.addToPlayList}/>
 			</div>
 		);

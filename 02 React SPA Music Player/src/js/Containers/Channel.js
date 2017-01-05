@@ -27,7 +27,7 @@ class Channel extends Component{
 
 	render(){
 		let { isFetching,success,bg,name,length,date,comment,song_list,actions } = this.props;
-		let info = isFetching||!name?'Loading...':!success?'查询超时，请重试':false;
+		let info = isFetching&&!song_list?'Loading...':!success?'查询超时，请重试':false;
 		if(info){
 			return (
 				<div>
@@ -35,11 +35,12 @@ class Channel extends Component{
 				</div>
 			);
 		}
+		let durationShow= true;
 		return (
 			<div>
 				<ListHeader url={bg} listName={name} listcnt={length} date={date} comment={comment}
 					playAll={this.playAll}/>
-				<ListContent listContent={song_list} playSpecialSong={actions.playSpecialSong}
+				<ListContent listContent={song_list} durationShow={durationShow} playSpecialSong={actions.playSpecialSong}
 				addToPlayList={actions.addToPlayList} addToLocalList={actions.addToLocalList}/>
 			</div>
 		);
