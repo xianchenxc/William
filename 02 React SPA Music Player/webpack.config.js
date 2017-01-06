@@ -114,7 +114,7 @@ function getPlugins() {
         }
       }),
       new HtmlWebpackPlugin({
-        title: 'celbyo - 播放器',
+        title: 'React SPA音乐播放器',
         filename: '../index.html',
         template: './src/html/index.html'
       }),

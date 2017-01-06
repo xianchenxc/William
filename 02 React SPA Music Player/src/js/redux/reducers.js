@@ -1,11 +1,11 @@
 import { PLAYERSTEATESHIFT,REQUESTSONG,RECEIVESONG,SONGTIMEUPDATE,VOLUMEUPDATE,CHANGEPLAYMODE } from '../Constants/ActionType.js';
 import { REQUESTLYRIC,RECEIVELYRIC,FAILLYRIC } from '../Constants/ActionType.js';
 import { REQUESTCHANNELLIST,RECEIVECHANNELLIST,FAILQUERYCHANNELLIST} from '../Constants/ActionType.js';
-import { UPDATEPLAYLIST,UPDATEPLAYLISTINDEX,CLEARALLPLAYLIST,SHOWPLAYLIST } from '../Constants/ActionType.js';
+import { UPDATEPLAYLIST,UPDATEPLAYLISTINDEX,CLEARALLPLAYLIST,SHOWPLAYLIST,UPDATEPLAYLISTSONG } from '../Constants/ActionType.js';
 import { UPDATELOCALLIST,DELETEFROMLOCALLIST } from '../Constants/ActionType.js';
 import { KEYWORDCHANGE,REQUESTKEYWORDQUERY,RECEIVEKEYWORDQUERY,KEYWORDQUERYFAIL } from '../Constants/ActionType.js';
 import objectAssign from 'object-assign';
-import { StorageGetter,StorageSetter} from '../util/tool.js';
+import { StorageGetter,getIndex} from '../util/tool.js';
 
 const initMusicState=StorageGetter('musicState')||{
 	playFlag: false,          
@@ -113,21 +113,17 @@ export const musicState = (preState = initMusicState,action) => {
 export const localPlayList = (preState = initLocalPlayList,action) => {
 	switch(action.type){
 		case UPDATELOCALLIST:
-			var nextState = objectAssign({},preState,{
+			return objectAssign({},preState,{
 					length: preState.length + action.items.length,
 					song_list: preState.song_list.concat(action.items)           
 				});
-			StorageSetter('localPlayList',nextState);
-			return nextState;
 		case DELETEFROMLOCALLIST:
 			var preSongList = preState.song_list;
 			preSongList.splice(action.index,1);
-			var nextState = objectAssign({},preState,{
+			return objectAssign({},preState,{
 					length: preSongList.length,
 					song_list: preSongList          
 				});
-			StorageSetter('localPlayList',nextState);
-			return nextState;
 		default:
 			return preState;
 	}
@@ -189,6 +185,11 @@ export const curPlayList = (preState = initCurPlayList,action) => {
 		case UPDATEPLAYLISTINDEX:
 			return objectAssign({},preState,{
 				curIndex: action.curIndex
+			});
+		case UPDATEPLAYLISTSONG:
+		console.log(action.song_id,preState.song_list);
+			return objectAssign({},preState,{
+				curIndex: getIndex('song_id',{'song_id':action.song_id},preState.song_list)
 			});
 		case CHANGEPLAYMODE:
 			return objectAssign({},preState,{

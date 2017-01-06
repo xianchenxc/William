@@ -1,13 +1,13 @@
 import { PLAYERSTEATESHIFT,REQUESTSONG,RECEIVESONG,SONGTIMEUPDATE,VOLUMEUPDATE,CHANGEPLAYMODE } from '../../Constants/ActionType.js';
 import { REQUESTLYRIC,RECEIVELYRIC,FAILLYRIC } from '../../Constants/ActionType.js';
 import { REQUESTCHANNELLIST,RECEIVECHANNELLIST,SHOWCHANNELLIST,FAILQUERYCHANNELLIST } from '../../Constants/ActionType.js';
-import { UPDATEPLAYLIST,UPDATEPLAYLISTINDEX,CLEARALLPLAYLIST,SHOWPLAYLIST } from '../../Constants/ActionType.js';
+import { UPDATEPLAYLIST,UPDATEPLAYLISTINDEX,CLEARALLPLAYLIST,SHOWPLAYLIST,UPDATEPLAYLISTSONG } from '../../Constants/ActionType.js';
 import { UPDATELOCALLIST,DELETEFROMLOCALLIST } from '../../Constants/ActionType.js';
 import { KEYWORDCHANGE,REQUESTKEYWORDQUERY,RECEIVEKEYWORDQUERY,KEYWORDQUERYFAIL } from '../../Constants/ActionType.js';
 import fetchJSONP from 'fetch-jsonp';
 import fetch from 'isomorphic-fetch';
 import { CONFIG } from '../../Constants/Config.js';
-import { offsetLeft,trim,formatLrc,filter,getIndex } from '../../util/tool.js';
+import { offsetLeft,trim,formatLrc,filter,getIndex,StorageSetter } from '../../util/tool.js';
 
 function requestChannelList(channel_type){
 	return {
@@ -49,6 +49,13 @@ function updateCurPlayIndex(index){
 	return {
 		type: UPDATEPLAYLISTINDEX,
 		curIndex: index
+	}
+}
+
+function updateCurPlaySong(song_id){
+	return {
+		type: UPDATEPLAYLISTSONG,
+		song_id: song_id
 	}
 }
 
@@ -185,6 +192,7 @@ export function playSpecialSong(song_id,song_info){
 		if(songs.length){
 			dispatch(updatePlayList(songs,'ADD'));
 		}
+		dispatch(updateCurPlaySong(song_id));
 		return dispatch(fetchSong(song_id));
 	};
 }
@@ -382,15 +390,10 @@ export function showPlayList(){
 	}
 }
 
-// export function recordLocalList(){
-// 	return (dispatch,getState) => {
-// 		StorageSetter('localPlayList',getState().localPlayList);
-// 		StorageSetter('musicState',getState().musicState);
-// 		StorageSetter('curPlayList',getState().curPlayList);
-// 		StorageSetter('date',new Date());
-// 		return dispatch({
-// 			type: UNMOUNTSAVE
-// 		});
-// 	}
-// }
-// 
+export function recordLocalList(){
+	return (dispatch,getState) => {
+		StorageSetter('localPlayList',getState().localPlayList);
+		return null;
+	}
+}
+

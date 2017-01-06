@@ -21,8 +21,8 @@ class Listline extends Component{
 }
 
 const mapStateToProps = state => {
-	let curIndex = state.curPlayList.curIndex;
-	let playFlag = state.musicState.playFlag;
+	let { curIndex } = state.curPlayList;
+	let { playFlag } = state.musicState;
 	return {
 		curIndex,
 		playFlag

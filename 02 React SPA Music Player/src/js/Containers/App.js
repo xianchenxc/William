@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import MusicPanel from '../Components/MusicPanel';
 import SideBar from '../Components/SideBar';
 import PlayListPanel from '../Components/PlayListPanel';
+import { StorageGetter,StorageSetter} from '../util/tool.js';
 
 import '../../css/icon.scss';
 import '../../css/font.scss';
@@ -16,6 +17,16 @@ class App extends Component{
 	constructor(props){
 		super(props);
 		this.keywordQuery=this.keywordQuery.bind(this);
+		this.storage = this.storage.bind(this);
+	}
+	storage(){
+		var a = (function (){
+				this.props.actions.recordLocalList();
+			}).bind(this)();
+		return a;
+	}
+	componentDidMount(){
+		window.onbeforeunload = this.storage;
 	}
 	keywordQuery(){
 		this.props.actions.keywordQuery(this.refs.search.value);
